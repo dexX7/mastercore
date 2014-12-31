@@ -1,3 +1,9 @@
+general:
+  artifacts:
+    - "src/bitcoin-config.h"
+    - "src/obj/build.h"
+    - "test_bitcoin.coverage/"
+    - "total.coverage/"
 dependencies:
   pre:
     - sudo add-apt-repository ppa:boost-latest/ppa -y
@@ -17,10 +23,11 @@ dependencies:
     - sudo apt-get install -y lcov
     - ./autogen.sh
     - ./configure --enable-lcov
-    - make -j 3
+    - make -j 4
 test:
   pre:
     - cp ./src/mastercored ./src/bitcoind
     - cp ./src/mastercore-cli ./src/bitcoin-cli
   override:
-    - make cov
+    - make cov:
+        timeout: 900
