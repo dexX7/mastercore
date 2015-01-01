@@ -1,0 +1,40 @@
+os: linux
+language: cpp
+env:
+  global:
+    - secure: "EQGAA8pWZbURsTM3TGYK5dHJU6RRqEMXp5egJpRhzsymiLZw2YsDTH2X9KbRtZ4gSp6Oq7KR+nW50N+W0AVmRTn9+hl7fVij/pN46HV5QSz8d9Z5y/YBvbPVcDy7NWsyWlmiF2PGiw/M0jmuUMvWrAMUQzf6XKrNQoQTtVGdJxs="
+cache:
+  apt: true
+matrix:
+  fast_finish: true
+before_install:
+  - sudo add-apt-repository ppa:boost-latest/ppa -y
+  - sudo add-apt-repository ppa:bitcoin/bitcoin -y
+  - sudo apt-get update -qq
+  - sudo apt-get install -y build-essential
+  - sudo apt-get install -y libtool
+  - sudo apt-get install -y autotools-dev
+  - sudo apt-get install -y autoconf
+  - sudo apt-get install -y libssl-dev
+  - sudo apt-get install -y libboost1.55-all-dev
+  - sudo apt-get install -y libdb4.8-dev
+  - sudo apt-get install -y libdb4.8++-dev
+  - sudo apt-get install -y libqt4-dev
+  - sudo apt-get install -y libprotobuf-dev
+  - sudo apt-get install -y protobuf-compiler
+  - sudo apt-get install -y libqrencode-dev
+  - ./autogen.sh
+install:
+  - ./configure --disable-dependency-tracking
+script:
+  - if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then make ; fi
+addons:
+  coverity_scan:
+    project:
+      name: dexX7/mastercore
+      version: 0.0.9-dev
+      description: $(git rev-parse HEAD~1)
+    notification_email: ugithub@bitwatch.co
+    build_command_prepend: ./configure --disable-dependency-tracking
+    build_command: make -j
+    branch_pattern: coverity-mscore-0.0.9
