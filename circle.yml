@@ -1,0 +1,49 @@
+machine:
+  java:
+    version: oraclejdk8
+  environment:
+    DATADIR: $HOME/.bitcoin
+    RESULTDIR: $CIRCLE_ARTIFACTS
+    RPC_TESTS_GIT_URL: https://github.com/dexX7/mastercore-rpc-tests.git
+    SPOCK_TESTS_GIT_URL: https://github.com/msgilligan/bitcoin-spock.git
+    JAVA_COMPARISON_TOOL_URL: https://github.com/TheBlueMatt/test-scripts/blob/38b490a2599d422b12d5ce8f165792f63fd8f54f/pull-tests-0f7b5d8.jar?raw=true
+    JAVA_COMPARISON_TOOL_HASH: ecd43b988a8b673b483e4f69f931596360a5e90fc415c75c4c259faa690df198
+dependencies:
+  pre:
+    - curl -k -L -o ./share/BitcoindComparisonTool.jar $JAVA_COMPARISON_TOOL_URL
+    - if [[ "$(sha256sum ./share/BitcoindComparisonTool.jar)" != "$JAVA_COMPARISON_TOOL_HASH  ./share/BitcoindComparisonTool.jar" ]]; then echo "Hashes don't match."; exit 1; fi
+    - sudo add-apt-repository ppa:boost-latest/ppa -y
+    - sudo add-apt-repository ppa:bitcoin/bitcoin -y
+    - sudo apt-get update -qq
+  override:
+    - sudo apt-get install -y build-essential
+    - sudo apt-get install -y libtool
+    - sudo apt-get install -y autotools-dev
+    - sudo apt-get install -y autoconf
+    - sudo apt-get install -y libssl-dev
+    - sudo apt-get install -y libboost1.55-all-dev
+    - sudo apt-get install -y libdb4.8-dev
+    - sudo apt-get install -y libdb4.8++-dev
+    - sudo apt-get install -y libqt4-dev
+    - sudo apt-get install -y libprotobuf-dev
+    - sudo apt-get install -y protobuf-compiler
+    - sudo apt-get install -y libqrencode-dev
+    - ./autogen.sh
+    - ./configure --disable-dependency-tracking --with-comparison-tool=./share/BitcoindComparisonTool.jar
+    - make -j 3
+test:
+  pre:
+    - git clone $RPC_TESTS_GIT_URL ./qa/mastercore-rpc-tests
+    - git clone $SPOCK_TESTS_GIT_URL ./qa/mastercore-spock-tests
+    - cp ./src/mastercored ./src/bitcoind
+    - cp ./src/mastercore-cli ./src/bitcoin-cli
+  override:
+    - make check
+    - ./qa/mastercore-rpc-tests/run_tests.py
+    - ./src/mastercored -datadir=$DATADIR -server -rpcuser=bitcoinrpc -rpcpassword=pass -rpcallowip=127.0.0.1 -debug -logtimestamps -txindex -regtest > $RESULTDIR/mastercored.log:
+       background: true
+    - sleep 5
+    - ./gradlew regTest:
+        pwd: ./qa/mastercore-spock-tests
+    - cp -avr ./qa/mastercore-spock-tests/build/reports/ $DATADIR/regtest/db.log $DATADIR/regtest/debug.log $DATADIR/regtest/mastercore.log $DATADIR/regtest/mastercore_owners.log $RESULTDIR
+    - cp -av ./qa/mastercore-spock-tests/build/test-results/*.xml $CIRCLE_TEST_REPORTS
