@@ -53,6 +53,7 @@ script:
   - cd ./qa/mastercore-spock-tests
   - ./gradlew regTest
   - kill $MASTERCORED_PID
+  - cd ../..
   - make cov
 after_success:
   - coveralls --gcov-options '\-lp'
