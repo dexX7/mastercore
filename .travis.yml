@@ -32,9 +32,11 @@ before_install:
   - sudo apt-get install -y libprotobuf-dev
   - sudo apt-get install -y protobuf-compiler
   - sudo apt-get install -y libqrencode-dev
+  - sudo apt-get install -y lcov
+  - sudo pip install cpp-coveralls
 install:
   - ./autogen.sh
-  - ./configure --disable-dependency-tracking --with-comparison-tool=./share/BitcoindComparisonTool.jar
+  - ./configure --disable-dependency-tracking --with-comparison-tool=./share/BitcoindComparisonTool.jar --enable-lcov
   - make -j 3
 before_script:
   - git clone $RPC_TESTS_GIT_URL ./qa/mastercore-rpc-tests
@@ -51,3 +53,6 @@ script:
   - cd ./qa/mastercore-spock-tests
   - ./gradlew regTest
   - kill $MASTERCORED_PID
+  - make cov
+after_success:
+  - coveralls --gcov-options '\-lp'
