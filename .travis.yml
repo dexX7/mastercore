@@ -15,8 +15,6 @@ cache:
 matrix:
   fast_finish: true
 before_install:
-  - curl -k -L -o ./share/BitcoindComparisonTool.jar $JAVA_COMPARISON_TOOL_URL
-  - if [[ "$(sha256sum ./share/BitcoindComparisonTool.jar)" != "$JAVA_COMPARISON_TOOL_HASH  ./share/BitcoindComparisonTool.jar" ]]; then echo "Hashes don't match."; exit 1; fi
   - sudo add-apt-repository ppa:boost-latest/ppa -y
   - sudo add-apt-repository ppa:bitcoin/bitcoin -y
   - sudo apt-get update -qq
@@ -36,24 +34,14 @@ before_install:
   - sudo pip install cpp-coveralls
 install:
   - ./autogen.sh
-  - ./configure --disable-dependency-tracking --with-comparison-tool=./share/BitcoindComparisonTool.jar --enable-lcov
+  - ./configure --disable-dependency-tracking --enable-lcov
   - make -j 3
 before_script:
-  - git clone $RPC_TESTS_GIT_URL ./qa/mastercore-rpc-tests
-  - git clone $SPOCK_TESTS_GIT_URL ./qa/mastercore-spock-tests
   - cp ./src/mastercored ./src/bitcoind
   - cp ./src/mastercore-cli ./src/bitcoin-cli
   - mkdir -p $RESULTDIR
 script:
   - make check
-  - ./qa/mastercore-rpc-tests/run_tests.py
-  - ./src/mastercored -datadir=$DATADIR -server -rpcuser=bitcoinrpc -rpcpassword=pass -rpcallowip=127.0.0.1 -debug -logtimestamps -txindex -regtest > $RESULTDIR/mastercored.log &
-  - sleep 5
-  - MASTERCORED_PID=$!
-  - cd ./qa/mastercore-spock-tests
-  - ./gradlew regTest
-  - kill $MASTERCORED_PID
-  - cd ../..
   - make cov
 after_success:
   - coveralls --gcov-options '\-lp'
