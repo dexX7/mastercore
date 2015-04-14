@@ -1,0 +1,42 @@
+machine:
+  environment:
+    MAKEJOBS: -j3
+    CCACHE_SIZE: 100M
+    CCACHE_TEMPDIR: /tmp/.ccache-temp
+    CCACHE_COMPRESS: 1
+    DATADIR: $HOME/.bitcoin
+    RESULTDIR: $CIRCLE_ARTIFACTS
+    RPC_TESTS_GIT_URL: https://github.com/OmniLayer/OmniJ.git
+    HOST: x86_64-unknown-linux-gnu
+    PACKAGES: "bc"
+    DEP_OPTS: "NO_QT=1 NO_UPNP=1 DEBUG=1"
+    BITCOIN_CONFIG: "--without-gui --disable-dependency-tracking"
+dependencies:
+  cache_directories:
+    - depends/built
+  pre:
+    - sudo apt-get update -qq
+    - sudo apt-get install --no-install-recommends --no-upgrade -qq $PACKAGES
+    - mkdir -p depends
+  override:
+    - make $MAKEJOBS -C depends HOST=$HOST $DEP_OPTS
+    - depends/$HOST/native/bin/ccache --max-size=$CCACHE_SIZE
+    - ./autogen.sh
+    - ./configure --prefix=$PWD/depends/$HOST --cache-file=config.cache $BITCOIN_CONFIG
+    - make $MAKEJOBS
+test:
+  pre:
+    - git clone $RPC_TESTS_GIT_URL ./qa/omnicore-rpc-tests
+    - mkdir -p $DATADIR
+  override:
+    - ./src/test/test_bitcoin --log_format=XML --log_sink=$CIRCLE_TEST_REPORTS/test_bitcoin.xml --log_level=test_suite --report_level=no
+    - ./src/bitcoind -datadir="$DATADIR" -daemon -server -rpcuser=bitcoinrpc -rpcpassword=pass -rpcallowip=127.0.0.1 -regtest -txindex -discover=0 -listen=0 -debug -logtimestamps > $RESULTDIR/omnicored.log
+    - sleep 5
+    - ./src/bitcoin-cli -datadir="$DATADIR" -rpcuser=bitcoinrpc -rpcpassword=pass -regtest -rpcwait getinfo
+    - ./src/bitcoin-cli -datadir="$DATADIR" -rpcuser=bitcoinrpc -rpcpassword=pass -regtest -rpcwait getinfo_MP
+    - ./gradlew :omnij-rpc:regTest:
+        pwd: ./qa/omnicore-rpc-tests
+    - ./src/bitcoin-cli -datadir="$DATADIR" -rpcuser=bitcoinrpc -rpcpassword=pass -regtest -rpcwait stop
+  post:
+    - cp -avr ./qa/omnicore-rpc-tests/omnij-rpc/build/reports/ $DATADIR/regtest/*.log $RESULTDIR
+    - cp -av ./qa/omnicore-rpc-tests/omnij-rpc/build/test-results/*.xml $CIRCLE_TEST_REPORTS
