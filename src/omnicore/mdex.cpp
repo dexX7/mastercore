@@ -1,9 +1,9 @@
-#include "mastercore_mdex.h"
+#include "omnicore/mdex.h"
 
-#include "mastercore.h"
-#include "mastercore_errors.h"
-#include "mastercore_log.h"
-#include "mastercore_tx.h"
+#include "omnicore/errors.h"
+#include "omnicore/log.h"
+#include "omnicore/omnicore.h"
+#include "omnicore/tx.h"
 
 #include "chain.h"
 #include "main.h"

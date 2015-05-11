@@ -1,4 +1,4 @@
-#include "mastercore_log.h"
+#include "omnicore/log.h"
 
 #include "chainparamsbase.h"
 #include "util.h"

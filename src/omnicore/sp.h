@@ -1,9 +1,9 @@
 #ifndef OMNICORE_SP_H
 #define OMNICORE_SP_H
 
-#include "mastercore.h"
-#include "mastercore_log.h"
-#include "mastercore_persistence.h"
+#include "omnicore/log.h"
+#include "omnicore/omnicore.h"
+#include "omnicore/persistence.h"
 
 class CBlockIndex;
 

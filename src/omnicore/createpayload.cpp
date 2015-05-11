@@ -1,7 +1,7 @@
 // This file serves to provide payload creation functions.
 
-#include "omnicore_createpayload.h"
-#include "mastercore_convert.h"
+#include "omnicore/convert.h"
+#include "omnicore/createpayload.h"
 
 #include <stdint.h>
 #include <string>

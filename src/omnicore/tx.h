@@ -4,8 +4,8 @@
 class CMPOffer;
 class CMPMetaDEx;
 
-#include "mastercore.h"
-#include "mastercore_log.h"
+#include "omnicore/log.h"
+#include "omnicore/omnicore.h"
 
 class CTransaction;
 

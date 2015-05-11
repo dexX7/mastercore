@@ -1,9 +1,9 @@
 // Smart Properties & Crowd Sales
 
-#include "mastercore_sp.h"
+#include "omnicore/sp.h"
 
-#include "mastercore.h"
-#include "mastercore_log.h"
+#include "omnicore/log.h"
+#include "omnicore/omnicore.h"
 
 #include "main.h"
 #include "tinyformat.h"

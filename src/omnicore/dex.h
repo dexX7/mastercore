@@ -1,8 +1,8 @@
 #ifndef OMNICORE_DEX_H
 #define OMNICORE_DEX_H 1
 
-#include "mastercore.h"
-#include "mastercore_log.h"
+#include "omnicore/log.h"
+#include "omnicore/omnicore.h"
 
 #include "amount.h"
 #include "tinyformat.h"

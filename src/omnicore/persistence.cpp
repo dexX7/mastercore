@@ -1,6 +1,6 @@
-#include "mastercore_persistence.h"
+#include "omnicore/persistence.h"
 
-#include "mastercore_log.h"
+#include "omnicore/log.h"
 
 #include "util.h"
 

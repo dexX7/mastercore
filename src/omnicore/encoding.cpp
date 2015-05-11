@@ -1,8 +1,8 @@
-#include "omnicore_encoding.h"
+#include "omnicore/encoding.h"
 
-#include "mastercore.h"
-#include "mastercore_script.h"
-#include "omnicore_utils.h"
+#include "omnicore/omnicore.h"
+#include "omnicore/script.h"
+#include "omnicore/utils.h"
 
 #include "base58.h"
 #include "pubkey.h"

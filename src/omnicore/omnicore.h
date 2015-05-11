@@ -3,15 +3,15 @@
 //
 // for now (?) class declarations go here -- work in progress; probably will get pulled out into a separate file, note: some declarations are still in the .cpp file
 
-#ifndef _MASTERCOIN
-#define _MASTERCOIN 1
+#ifndef OMNICORE_OMNICORE_H
+#define OMNICORE_OMNICORE_H
 
 class CBitcoinAddress;
 class CBlockIndex;
 class CTransaction;
 
-#include "mastercore_log.h"
-#include "mastercore_persistence.h"
+#include "omnicore/log.h"
+#include "omnicore/persistence.h"
 
 #include "sync.h"
 #include "uint256.h"
@@ -473,5 +473,5 @@ bool parseAlertMessage(std::string rawAlertStr, int32_t *alertType, uint64_t *ex
 std::string getTokenLabel(unsigned int propertyId);
 }
 
-#endif
 
+#endif // OMNICORE_OMNICORE_H

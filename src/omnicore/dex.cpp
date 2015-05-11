@@ -1,11 +1,11 @@
 // DEx & MetaDEx
 
-#include "mastercore_dex.h"
+#include "omnicore/dex.h"
 
-#include "mastercore.h"
-#include "mastercore_convert.h"
-#include "mastercore_errors.h"
-#include "mastercore_log.h"
+#include "omnicore/convert.h"
+#include "omnicore/errors.h"
+#include "omnicore/log.h"
+#include "omnicore/omnicore.h"
 
 #include "main.h"
 #include "tinyformat.h"

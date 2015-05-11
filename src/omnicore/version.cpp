@@ -1,4 +1,4 @@
-#include "mastercore_version.h"
+#include "omnicore/version.h"
 
 #include "clientversion.h"
 #include "tinyformat.h"

@@ -1,4 +1,4 @@
-#include "mastercore_script.h"
+#include "omnicore/script.h"
 
 #include "amount.h"
 #include "script/script.h"

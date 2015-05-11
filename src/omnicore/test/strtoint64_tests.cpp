@@ -1,4 +1,4 @@
-#include "mastercore_parse_string.h"
+#include "omnicore/parse_string.h"
 
 #include <stdint.h>
 #include <string>

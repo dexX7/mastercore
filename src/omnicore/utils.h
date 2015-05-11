@@ -1,7 +1,7 @@
 #ifndef OMNICORE_UTILS_H
 #define OMNICORE_UTILS_H
 
-#include "mastercore.h" // MAX_SHA256_OBFUSCATION_TIMES
+#include "omnicore/omnicore.h" // MAX_SHA256_OBFUSCATION_TIMES
 
 #include <string>
 

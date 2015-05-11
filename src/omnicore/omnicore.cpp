@@ -13,20 +13,20 @@
 // global TODO: need locks on the maps in this file & balances (moneys[],reserved[] & raccept[]) !!!
 //
 
-#include "mastercore.h"
+#include "omnicore/omnicore.h"
 
-#include "mastercore_convert.h"
-#include "mastercore_dex.h"
-#include "mastercore_errors.h"
-#include "mastercore_log.h"
-#include "mastercore_mdex.h"
-#include "mastercore_persistence.h"
-#include "mastercore_script.h"
-#include "mastercore_sp.h"
-#include "mastercore_tx.h"
-#include "mastercore_version.h"
-#include "omnicore_encoding.h"
-#include "omnicore_utils.h"
+#include "omnicore/convert.h"
+#include "omnicore/dex.h"
+#include "omnicore/encoding.h"
+#include "omnicore/errors.h"
+#include "omnicore/log.h"
+#include "omnicore/mdex.h"
+#include "omnicore/persistence.h"
+#include "omnicore/script.h"
+#include "omnicore/sp.h"
+#include "omnicore/tx.h"
+#include "omnicore/utils.h"
+#include "omnicore/version.h"
 
 #include "base58.h"
 #include "chainparams.h"

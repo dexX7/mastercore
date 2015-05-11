@@ -1,13 +1,13 @@
 // Master Protocol transaction code
 
-#include "mastercore_tx.h"
+#include "omnicore/tx.h"
 
-#include "mastercore.h"
-#include "mastercore_convert.h"
-#include "mastercore_dex.h"
-#include "mastercore_log.h"
-#include "mastercore_mdex.h"
-#include "mastercore_sp.h"
+#include "omnicore/convert.h"
+#include "omnicore/dex.h"
+#include "omnicore/log.h"
+#include "omnicore/mdex.h"
+#include "omnicore/omnicore.h"
+#include "omnicore/sp.h"
 
 #include "alert.h"
 #include "amount.h"

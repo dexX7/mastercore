@@ -5,9 +5,9 @@
  * and mastercore.h files.
  */
 
-#include "omnicore_utils.h"
+#include "omnicore/utils.h"
 
-#include "mastercore.h" // MAX_SHA256_OBFUSCATION_TIMES
+#include "omnicore/omnicore.h" // MAX_SHA256_OBFUSCATION_TIMES
 
 #include "utilstrencodings.h"
 

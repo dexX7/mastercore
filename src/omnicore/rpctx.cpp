@@ -1,15 +1,16 @@
 // RPC calls for creating and sending Omni transactions
 
-#include "omnicore_rpctx.h"
+#include "omnicore/rpctx.h"
 
-#include "mastercore.h"
-#include "mastercore_convert.h"
-#include "mastercore_errors.h"
-#include "mastercore_parse_string.h"
-#include "mastercore_sp.h"
-#include "mastercore_dex.h"
-#include "mastercore_tx.h"
-#include "omnicore_createpayload.h"
+#include "omnicore/convert.h"
+#include "omnicore/createpayload.h"
+#include "omnicore/dex.h"
+#include "omnicore/errors.h"
+#include "omnicore/omnicore.h"
+#include "omnicore/parse_string.h"
+#include "omnicore/sp.h"
+#include "omnicore/tx.h"
+
 #include "rpcserver.h"
 #include "wallet.h"
 

@@ -1,6 +1,6 @@
-#include "omnicore_encoding.h"
+#include "omnicore/encoding.h"
 
-#include "mastercore_script.h"
+#include "omnicore/script.h"
 
 #include "script/script.h"
 #include "utilstrencodings.h"
